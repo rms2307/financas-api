@@ -11,21 +11,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
-namespace Api
+namespace Financas.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostEnvironment env)
         {
             Configuration = configuration;
+            HostEnvironment = env;
         }
 
         public IConfiguration Configuration { get; }
+        public IHostEnvironment HostEnvironment { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var environment = HostEnvironment.IsDevelopment() ? "Development" : "Production";
+            var connectionString = Configuration.GetConnectionString(environment);
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -34,7 +38,6 @@ namespace Api
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
