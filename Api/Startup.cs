@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Financas.Application.Persistence;
 
 namespace Financas.Api
 {
@@ -30,6 +31,16 @@ namespace Financas.Api
         {
             var environment = HostEnvironment.IsDevelopment() ? "Development" : "Production";
             var connectionString = Configuration.GetConnectionString(environment);
+            services.AddDbContext<FinancasContext>(options => options.UseSqlServer(connectionString));
+
+            services.Scan(scan => scan
+                .FromApplicationDependencies()
+                .AddClasses(classes => classes.Where(type => type.Name.Equals("QueryHandler")))
+                    .AsSelf()
+                    .WithTransientLifetime()
+                .AddClasses(classes => classes.Where(type => type.Name.Equals("CommandHandler")))
+                    .AsSelf()               
+                    .WithTransientLifetime());
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
