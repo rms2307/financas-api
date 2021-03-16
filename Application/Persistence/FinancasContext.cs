@@ -9,7 +9,7 @@ namespace Financas.Application.Persistence
 
         public virtual DbSet<CustoFixo> CustoFixo { get; set; }
 
-        public virtual DbSet<CustoDiverso> CustoDiversos { get; set; }
+        public virtual DbSet<CustoDiverso> CustoDiverso { get; set; }
 
         public FinancasContext(DbContextOptions<FinancasContext> options) : base(options) { }
     }
