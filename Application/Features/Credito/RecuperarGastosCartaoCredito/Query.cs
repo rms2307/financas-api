@@ -1,5 +1,5 @@
 ﻿
-namespace Financas.Application.Features.RecuperarGastosCartaoCredito
+namespace Financas.Application.Features.Credito
 {
     public partial class RecuperarGastosCartaoCredito
     {

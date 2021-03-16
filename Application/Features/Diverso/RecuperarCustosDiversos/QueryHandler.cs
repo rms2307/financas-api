@@ -4,9 +4,9 @@ using LanguageExt;
 using Financas.Application.Persistence;
 using Financas.Domain;
 
-namespace Financas.Application.Features.RecuperarCustosFixos
+namespace Financas.Application.Features.Diverso
 {
-    public partial class RecuperarCustosFixos
+    public partial class RecuperarCustosDiversos
     {
         public class QueryHandler
         {
@@ -17,13 +17,13 @@ namespace Financas.Application.Features.RecuperarCustosFixos
                 _context = context;
             }
 
-            public IEnumerable<CustoFixo> Handle(Query query)
+            public IEnumerable<CustoDiverso> Handle(Query query)
             {
-                var custosFixos = _context.CustoFixo
+                var custosDiversos = _context.CustoDiverso
                     .OrderByDescending(c => c.Data)
                     .ToList();
 
-                return custosFixos;
+                return custosDiversos;
             }
         }
     }

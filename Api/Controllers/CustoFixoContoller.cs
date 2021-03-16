@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Financas.Application.Features.RecuperarCustosFixos;
+using Financas.Application.Features.Fixo;
 
 namespace Financas.Api.Controllers
 {

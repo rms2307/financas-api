@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Financas.Application.Features.RecuperarGastosCartaoCredito;
+using Financas.Application.Features.Credito;
 
 namespace Financas.Api.Controllers
 {

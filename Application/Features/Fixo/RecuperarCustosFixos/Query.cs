@@ -1,5 +1,5 @@
 ﻿
-namespace Financas.Application.Features.RecuperarCustosFixos
+namespace Financas.Application.Features.Fixo
 {
     public partial class RecuperarCustosFixos
     {
