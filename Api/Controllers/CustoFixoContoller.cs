@@ -15,5 +15,17 @@ namespace Financas.Api.Controllers
 
             return result.Any() ? Ok(result) : NoContent();
         }
+
+        [HttpGet("{Id}")]
+        public IActionResult RecuperarUmCustoFixo([FromRoute] RecuperarUmCustoFixo.Query query,
+            [FromServices] RecuperarUmCustoFixo.QueryHandler handler)
+        {
+            return handler
+                .Handle(query)
+                .Match<IActionResult>(
+                    Some: cd => Ok(cd),
+                    None: () => NotFound()
+                );
+        }
     }
 }
