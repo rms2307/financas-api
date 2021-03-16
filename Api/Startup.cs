@@ -46,6 +46,7 @@ namespace Financas.Api
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Financas-Api", Version = "v1" });
+                c.CustomSchemaIds(type => type.ToString());
             });
         }
 
@@ -55,7 +56,7 @@ namespace Financas.Api
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("./swagger/v1/swagger.json", "Financas-Api V1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Financas-Api V1"));
             }
 
             app.UseHttpsRedirection();
