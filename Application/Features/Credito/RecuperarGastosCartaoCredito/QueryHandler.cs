@@ -20,6 +20,7 @@ namespace Financas.Application.Features.Credito
             public IEnumerable<CartaoCredito> Handle(Query query)
             {
                 var gastosCartao = _context.CartaoCredito
+                    .Where(cd => cd.Data.Month == query.MesAtual)
                     .OrderByDescending(c => c.Data)
                     .ToList();
 

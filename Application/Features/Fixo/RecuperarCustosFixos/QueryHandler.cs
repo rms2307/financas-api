@@ -20,6 +20,7 @@ namespace Financas.Application.Features.Fixo
             public IEnumerable<CustoFixo> Handle(Query query)
             {
                 var custosFixos = _context.CustoFixo
+                    .Where(cd => cd.Data.Month == query.MesAtual)
                     .OrderByDescending(c => c.Data)
                     .ToList();
 

@@ -5,6 +5,7 @@ namespace Financas.Application.Features.Credito
     {
         public class Query
         {
+            public int MesAtual { get; set; }
         }
     }    
 }

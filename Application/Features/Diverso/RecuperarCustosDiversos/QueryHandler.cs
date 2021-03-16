@@ -20,6 +20,7 @@ namespace Financas.Application.Features.Diverso
             public IEnumerable<CustoDiverso> Handle(Query query)
             {
                 var custosDiversos = _context.CustoDiverso
+                    .Where(cd => cd.Data.Month == query.MesAtual)
                     .OrderByDescending(c => c.Data)
                     .ToList();
 

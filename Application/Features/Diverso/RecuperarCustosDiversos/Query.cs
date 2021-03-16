@@ -5,6 +5,7 @@ namespace Financas.Application.Features.Diverso
     {
         public class Query
         {
+            public int MesAtual { get; set; }
         }
     }    
 }
