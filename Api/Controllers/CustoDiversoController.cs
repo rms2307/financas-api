@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Financas.Application.Features.Diverso;
+using System.Net;
+using System;
 
 namespace Financas.Api.Controllers
 {
@@ -24,10 +26,52 @@ namespace Financas.Api.Controllers
                 .Handle(query)
                 .Match<IActionResult>(
                     Some: cd => Ok(cd),
-                    None: () => NotFound()
+                    None: () => NotFound("Registro não encontrado.")
                 );
         }
 
+        [HttpPost]
+        public IActionResult CadastrarCustoDiverso([FromBody] CadastrarCustoDiverso.Command command,
+            [FromServices] CadastrarCustoDiverso.CommandHandler handler)
+        {
+            try
+            {
+                return Ok(handler.Handle(command));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
+        [HttpPut]
+        public IActionResult EditarCustoDiverso([FromBody] EditarCustoDiverso.Command command,
+            [FromServices] EditarCustoDiverso.CommandHandler handler)
+        {
+            try
+            {
+                return Ok(handler.Handle(command));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpDelete("{Id}")]
+        public IActionResult RemoverUmCustoDiverso([FromRoute] RemoverUmCustoDiverso.Command command,
+            [FromServices] RemoverUmCustoDiverso.CommandHandler handler)
+        {
+            Console.WriteLine(command.Id);
+            try
+            {
+                handler.Handle(command);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }
