@@ -62,7 +62,6 @@ namespace Financas.Api.Controllers
         public IActionResult RemoverUmCustoDiverso([FromRoute] RemoverUmCustoDiverso.Command command,
             [FromServices] RemoverUmCustoDiverso.CommandHandler handler)
         {
-            Console.WriteLine(command.Id);
             try
             {
                 handler.Handle(command);
