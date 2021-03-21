@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using LanguageExt;
 using Microsoft.EntityFrameworkCore;
 using Financas.Application.Persistence;
 using Financas.Domain;
+using System;
 
 namespace Financas.Application.Features.Fixo
 {
@@ -21,12 +18,12 @@ namespace Financas.Application.Features.Fixo
                 _context = context;
             }
 
-            public Option<CustoFixo> Handle(Query query)
+            public CustoFixo Handle(Query query)
             {
                 var result = _context.CustoFixo
-                    .Where(cd => cd.Id == query.Id)
-                    .AsNoTracking()
-                    .SingleOrDefault();
+                    .SingleOrDefault(cd => cd.Id == query.Id);
+
+                if (result.IsNull()) throw new Exception("Registro não encontrado");
 
                 return result;
             }

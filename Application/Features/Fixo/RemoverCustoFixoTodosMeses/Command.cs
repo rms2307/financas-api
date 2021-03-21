@@ -1,9 +1,9 @@
 ﻿
 namespace Financas.Application.Features.Fixo
 {
-    public partial class RecuperarUmCustoFixo
+    public partial class RemoverCustoFixoTodosMeses
     {
-        public class Query
+        public class Command
         {
             public int Id { get; set; }
         }

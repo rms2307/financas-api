@@ -3,10 +3,11 @@ using System.Linq;
 using LanguageExt;
 using Financas.Application.Persistence;
 using Financas.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace Financas.Application.Features.Fixo
 {
-    public partial class RecuperarCustosFixos
+    public partial class RecuperarCustosFixosDoMes
     {
         public class QueryHandler
         {
@@ -20,7 +21,8 @@ namespace Financas.Application.Features.Fixo
             public IEnumerable<CustoFixo> Handle(Query query)
             {
                 var custosFixos = _context.CustoFixo
-                    .Where(cd => cd.Data.Month == query.MesAtual)
+                    .Include(c => c.CustoFixoDescricao)
+                    .Where(c => c.Data.Month == query.MesAtual)
                     .OrderByDescending(c => c.Data)
                     .ToList();
 

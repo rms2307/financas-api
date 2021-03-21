@@ -1,7 +1,7 @@
 ﻿
 namespace Financas.Application.Features.Fixo
 {
-    public partial class RecuperarCustosFixos
+    public partial class RecuperarCustosFixosDoMes
     {
         public class Query
         {
