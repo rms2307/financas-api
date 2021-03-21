@@ -22,19 +22,13 @@ namespace Financas.Application.Features.Diverso
 
             public void Handle(Command command)
             {
-                Option<CustoDiverso> custo = _context.CustoDiverso
+                CustoDiverso custo = _context.CustoDiverso
                     .SingleOrDefault(c => c.Id == command.Id);
 
-                custo.Match(
-                    Some: c =>
-                    {
-                        _context.CustoDiverso.Remove(c);
-                        _context.SaveChanges();                        
-                    },
-                    None: () =>
-                    {
-                        throw new Exception("Registro não encontrado");
-                    });               
+                if (custo.IsNull()) throw new Exception("Registro não encontrado");
+
+                _context.CustoDiverso.Remove(custo);
+                _context.SaveChanges();
             }
         }
     }

@@ -21,12 +21,10 @@ namespace Financas.Application.Features.Diverso
                 _context = context;
             }
 
-            public Option<CustoDiverso> Handle(Query query)
+            public CustoDiverso Handle(Query query)
             {
                 var result = _context.CustoDiverso
-                    .Where(cd => cd.Id == query.Id)
-                    .AsNoTracking()
-                    .SingleOrDefault();
+                    .SingleOrDefault(c => c.Id == query.Id);
 
                 return result;
             }

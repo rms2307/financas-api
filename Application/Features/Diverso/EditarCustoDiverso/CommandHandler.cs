@@ -20,30 +20,25 @@ namespace Financas.Application.Features.Diverso
                 _context = context;
             }
 
-            public Option<CustoDiverso> Handle(Command command)
+            public CustoDiverso Handle(Command command)
             {
                 if (command == null || command.Desc == null || command.Desc.Trim() == "")
                     throw new Exception("Informações faltantes.");
 
-                Option<CustoDiverso> custo = _context.CustoDiverso
+                var custo = _context.CustoDiverso
                     .SingleOrDefault(c => c.Id == command.Id);
 
-                return custo.Match(
-                    Some: c =>
-                    {
-                        c.Desc = command.Desc;
-                        c.Data = command.Data;
-                        c.Valor = command.Valor;
+                if (custo.IsNull()) throw new Exception("Registro não encontrado");
 
-                        _context.SaveChanges();
+                custo.Desc = command.Desc;
+                custo.Data = command.Data;
+                custo.Valor = command.Valor;
 
-                        return c;
-                    },
-                    None: () =>
-                    {
-                        throw new Exception("Registro não encontrado");
-                    });
+                _context.SaveChanges();
+
+                return custo;
             }
         }
     }
 }
+

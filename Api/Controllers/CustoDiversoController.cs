@@ -22,12 +22,14 @@ namespace Financas.Api.Controllers
         public IActionResult RetornarUmCustoDiverso([FromRoute] RecuperarUmCustoDiverso.Query query,
             [FromServices] RecuperarUmCustoDiverso.QueryHandler handler)
         {
-            return handler
-                .Handle(query)
-                .Match<IActionResult>(
-                    Some: cd => Ok(cd),
-                    None: () => NotFound("Registro não encontrado.")
-                );
+            try
+            {
+                return Ok(handler.Handle(query));
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
         }
 
         [HttpPost]
