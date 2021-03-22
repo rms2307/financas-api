@@ -21,7 +21,10 @@ namespace Financas.Application.Features.Fixo
                 if (command == null || command.Desc == null || command.Desc.Trim() == "")
                     throw new Exception("Informações faltantes.");
 
-                var descricaoId = InserirDescricao(command.Desc);
+                var custoFixoDescricao = new CustoFixoDescricao
+                {
+                    Desc = command.Desc
+                };
 
                 List<CustoFixo> listaCustos = new();
 
@@ -31,10 +34,10 @@ namespace Financas.Application.Features.Fixo
 
                     var newCusto = new CustoFixo
                     {
-                        CustoFixoDescricaoId = descricaoId,
                         Valor = command.Valor,
                         Data = proxMes,
-                        Pago = false
+                        Pago = false,
+                        CustoFixoDescricao = custoFixoDescricao
                     };
 
                     listaCustos.Add(newCusto);
@@ -44,19 +47,6 @@ namespace Financas.Application.Features.Fixo
                 _context.SaveChanges();
 
                 return listaCustos;
-            }
-
-            private int InserirDescricao(string descricao)
-            {
-                var custoFixoDescricao = new CustoFixoDescricao
-                {
-                    Desc = descricao
-                };
-
-                _context.CustoFixoDescricao.Add(custoFixoDescricao);
-                _context.SaveChanges();
-
-                return custoFixoDescricao.Id;
             }
         }
     }
