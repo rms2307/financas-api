@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Financas.Application.Features.Credito;
+using System;
 
 namespace Financas.Api.Controllers
 {
@@ -8,8 +9,8 @@ namespace Financas.Api.Controllers
     public class CartaoCreditoContoller : ControllerBase
     {
         [HttpGet]
-        public IActionResult Get([FromQuery] RecuperarGastosCartaoCredito.Query query,
-            [FromServices] RecuperarGastosCartaoCredito.QueryHandler handler)
+        public IActionResult RecuperarFaturaDoMes([FromQuery] RecuperarFaturaCartaoCreditoDoMes.Query query,
+            [FromServices] RecuperarFaturaCartaoCreditoDoMes.QueryHandler handler)
         {
             var result = handler.Handle(query);
 
@@ -17,15 +18,61 @@ namespace Financas.Api.Controllers
         }
 
         [HttpGet("{Id}")]
-        public IActionResult RecuperarUmGastoCartaoCredito([FromRoute] RecuperarUmGastoCartaoCredito.Query query,
+        public IActionResult RecuperarUmGasto([FromRoute] RecuperarUmGastoCartaoCredito.Query query,
             [FromServices] RecuperarUmGastoCartaoCredito.QueryHandler handler)
         {
-            return handler
-                .Handle(query)
-                .Match<IActionResult>(
-                    Some: cd => Ok(cd),
-                    None: () => NotFound()
-                );
+            try
+            {
+                return Ok(handler.Handle(query));
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult CadastrarGasto([FromBody] CadastrarGastoCartaoCredito.Command command,
+            [FromServices] CadastrarGastoCartaoCredito.CommandHandler handler)
+        {
+            try
+            {
+                return Ok(handler.Handle(command));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPut]
+        public IActionResult EditarGasto([FromBody] EditarGastoCartaoCredito.Command command,
+            [FromServices] EditarGastoCartaoCredito.CommandHandler handler)
+        {
+            try
+            {
+                handler.Handle(command);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpDelete("{Id}")]
+        public IActionResult RemoverUmGasto([FromRoute] RemoverGastoCartaoCredito.Command command,
+            [FromServices] RemoverGastoCartaoCredito.CommandHandler handler)
+        {
+            try
+            {
+                handler.Handle(command);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

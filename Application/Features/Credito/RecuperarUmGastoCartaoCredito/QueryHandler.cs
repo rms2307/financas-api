@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LanguageExt;
+﻿using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Financas.Application.Persistence;
 using Financas.Domain;
@@ -21,12 +16,11 @@ namespace Financas.Application.Features.Credito
                 _context = context;
             }
 
-            public Option<CartaoCredito> Handle(Query query)
+            public CartaoCreditoCompra Handle(Query query)
             {
-                var result = _context.CartaoCredito
-                    .Where(cd => cd.Id == query.Id)
-                    .AsNoTracking()
-                    .SingleOrDefault();
+                var result = _context.CartaoCreditoCompra
+                    .Include(c => c.CartaoCreditoParcelas)
+                    .SingleOrDefault(c => c.Id == query.Id);
 
                 return result;
             }

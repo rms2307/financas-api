@@ -3,10 +3,11 @@ using System.Linq;
 using LanguageExt;
 using Financas.Application.Persistence;
 using Financas.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace Financas.Application.Features.Credito
 {
-    public partial class RecuperarGastosCartaoCredito
+    public partial class RecuperarFaturaCartaoCreditoDoMes
     {
         public class QueryHandler
         {
@@ -17,14 +18,14 @@ namespace Financas.Application.Features.Credito
                 _context = context;
             }
 
-            public IEnumerable<CartaoCredito> Handle(Query query)
+            public IEnumerable<CartaoCreditoParcela> Handle(Query query)
             {
-                var gastosCartao = _context.CartaoCredito
-                    .Where(cd => cd.Data.Month == query.MesAtual)
-                    .OrderByDescending(c => c.Data)
+                var parcelas = _context.CartaoCreditoParcela
+                    .Include(c => c.CartaoCreditoCompra)
+                    .Where(c => c.VencimentoParcela.Month == query.MesAtual)
                     .ToList();
 
-                return gastosCartao;
+                return parcelas;
             }
         }
     }

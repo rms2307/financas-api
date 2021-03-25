@@ -1,7 +1,7 @@
 ﻿
 namespace Financas.Application.Features.Credito
 {
-    public partial class RecuperarGastosCartaoCredito
+    public partial class RecuperarFaturaCartaoCreditoDoMes
     {
         public class Query
         {
