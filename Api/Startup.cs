@@ -33,6 +33,13 @@ namespace Financas.Api
             var connectionString = Configuration.GetConnectionString(environment);
             services.AddDbContext<FinancasContext>(options => options.UseSqlServer(connectionString));
 
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
             services.Scan(scan => scan
                 .FromApplicationDependencies()
                 .AddClasses(classes => classes.Where(type => type.Name.Equals("QueryHandler")))
@@ -62,6 +69,8 @@ namespace Financas.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("MyPolicy");
 
             app.UseAuthorization();
 
