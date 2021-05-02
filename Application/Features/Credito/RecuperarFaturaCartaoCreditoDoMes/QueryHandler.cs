@@ -24,6 +24,7 @@ namespace Financas.Application.Features.Credito
                     .Include(c => c.CartaoCreditoCompra)
                     .ThenInclude(c => c.CartaoCredito)
                     .Where(c => c.VencimentoParcela.Month == query.MesAtual)
+                    .OrderByDescending(c => c.CartaoCreditoCompra.DataCompra)
                     .ToList();
 
                 return parcelas;

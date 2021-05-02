@@ -24,9 +24,9 @@ namespace Financas.Application.Features.Credito
 
                 var cartaoCredito = _context.CartaoCredito
                     .FirstOrDefault(c => c.Id == command.CartaoCreditoId);
-                
+
                 int incrementaMes;
-                if (command.DataCompra.Day > cartaoCredito.DiaFechamentoFatura) incrementaMes = 1; 
+                if (command.DataCompra.Day > cartaoCredito.DiaFechamentoFatura) incrementaMes = 1;
                 else incrementaMes = 0;
 
                 var parcelas = new List<CartaoCreditoParcela>();
@@ -36,11 +36,17 @@ namespace Financas.Application.Features.Credito
                     {
                         ValorParcela = command.Valor / command.NumeroDeParcelas,
                         VencimentoParcela = new DateTime(command.DataCompra.Year,
-                                                         command.DataCompra.Month + incrementaMes, 
+                                                         command.DataCompra.Month + incrementaMes,
                                                          cartaoCredito.DiaVencimentoFatura)
                     };
                     parcelas.Add(parcela);
                     incrementaMes++;
+                }
+
+                var parcelasRound = this.RetornarParcelas(command.Valor, command.NumeroDeParcelas);
+                foreach (var item in parcelasRound)
+                {
+                    Console.WriteLine(item);
                 }
 
                 var newGasto = new CartaoCreditoCompra
@@ -57,6 +63,18 @@ namespace Financas.Application.Features.Credito
                 _context.SaveChanges();
 
                 return newGasto;
+            }
+            private List<decimal> RetornarParcelas(decimal valor, decimal totalParcelas)
+            {
+                decimal varValorParcela = valor / totalParcelas;
+
+                var varParcelas = new List<decimal>();
+                for (int i = 0; i < totalParcelas - 1; i++)
+                    varParcelas.Add(Math.Round(varValorParcela, 0));
+
+                varParcelas.Add(valor - (Math.Round(varValorParcela, 0) * (totalParcelas - 1)));
+
+                return varParcelas;
             }
         }
     }
