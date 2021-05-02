@@ -20,6 +20,7 @@ namespace Financas.Application.Features.Credito
             {
                 var result = _context.CartaoCreditoCompra
                     .Include(c => c.CartaoCreditoParcelas)
+                    .Include(c => c.CartaoCredito)
                     .SingleOrDefault(c => c.Id == query.Id);
 
                 return result;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Financas.Domain
 {
@@ -10,6 +11,7 @@ namespace Financas.Domain
         public decimal Valor { get; set; }
         public DateTime DataCompra { get; set; }
         public CartaoCredito CartaoCredito { get; set; }
+        [JsonIgnore]
         public List<CartaoCreditoParcela> CartaoCreditoParcelas { get; set; }
     }
 }

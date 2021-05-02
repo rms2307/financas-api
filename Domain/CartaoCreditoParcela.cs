@@ -8,7 +8,6 @@ namespace Financas.Domain
         public int Id { get; set; }
         public DateTime VencimentoParcela { get; set; }
         public decimal ValorParcela { get; set; }
-        [JsonIgnore]
         public CartaoCreditoCompra CartaoCreditoCompra { get; set; }
     }
 }
