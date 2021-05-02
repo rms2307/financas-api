@@ -28,7 +28,7 @@ namespace Financas.Application.Features.Fixo
 
                 List<CustoFixo> listaCustos = new();
 
-                for (int i = 0; i < command.AddPorXMeses; i++)
+                for (int i = 0; i < command.RepetirCusto; i++)
                 {
                     var proxMes = command.Data.AddMonths(i);
 
