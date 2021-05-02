@@ -21,7 +21,7 @@ namespace Financas.Application.Features.Fixo
             {
                 var custoDoMes = _context.CustoFixo
                     .Include(c => c.CustoFixoDescricao)
-                    .SingleOrDefault(c => c.Id == command.Id);
+                    .FirstOrDefault(c => c.Id == command.Id);
 
                 if (custoDoMes.IsNull()) throw new Exception("Registro não encontrado");
 

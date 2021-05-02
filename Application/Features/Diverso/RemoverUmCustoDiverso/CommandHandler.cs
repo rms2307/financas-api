@@ -23,7 +23,7 @@ namespace Financas.Application.Features.Diverso
             public void Handle(Command command)
             {
                 CustoDiverso custo = _context.CustoDiverso
-                    .SingleOrDefault(c => c.Id == command.Id);
+                    .FirstOrDefault(c => c.Id == command.Id);
 
                 if (custo.IsNull()) throw new Exception("Registro não encontrado");
 

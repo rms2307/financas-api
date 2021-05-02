@@ -24,7 +24,7 @@ namespace Financas.Application.Features.Diverso
             public CustoDiverso Handle(Query query)
             {
                 var result = _context.CustoDiverso
-                    .SingleOrDefault(c => c.Id == query.Id);
+                    .FirstOrDefault(c => c.Id == query.Id);
 
                 return result;
             }

@@ -18,7 +18,7 @@ namespace Financas.Application.Features.Receitas
             public Receita Handle(Query query)
             {
                 var receita = _context.Receita
-                    .SingleOrDefault(r => r.Id == query.Id);
+                    .FirstOrDefault(r => r.Id == query.Id);
 
                 return receita;
             }

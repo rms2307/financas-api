@@ -25,7 +25,7 @@ namespace Financas.Application.Features.Receitas
                 if (command.IsNull()) throw new Exception("Informações faltantes.");
 
                 var receita = _context.Receita
-                    .SingleOrDefault(r => r.Id == command.Id);
+                    .FirstOrDefault(r => r.Id == command.Id);
 
                 if (receita.IsNull()) throw new Exception("Registro não encontrado");
 

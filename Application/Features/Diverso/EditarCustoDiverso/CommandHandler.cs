@@ -26,7 +26,7 @@ namespace Financas.Application.Features.Diverso
                     throw new Exception("Informações faltantes.");
 
                 var custo = _context.CustoDiverso
-                    .SingleOrDefault(c => c.Id == command.Id);
+                    .FirstOrDefault(c => c.Id == command.Id);
 
                 if (custo.IsNull()) throw new Exception("Registro não encontrado");
 

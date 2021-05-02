@@ -29,10 +29,10 @@ namespace Financas.Application.Features.Credito
                 var gasto = _context.CartaoCreditoCompra
                     .Include(c => c.CartaoCredito)
                     .Include(c => c.CartaoCreditoParcelas)
-                    .SingleOrDefault(c => c.Id == command.Id);
+                    .FirstOrDefault(c => c.Id == command.Id);
 
                 var cartaoCredito = _context.CartaoCredito
-                    .SingleOrDefault(c => c.Id == command.CartaoCreditoId);
+                    .FirstOrDefault(c => c.Id == command.CartaoCreditoId);
 
                 if (gasto.IsNull() || cartaoCredito.IsNull()) throw new Exception("Registro não encontrado");
 

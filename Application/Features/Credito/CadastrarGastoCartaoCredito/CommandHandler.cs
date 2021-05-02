@@ -23,7 +23,7 @@ namespace Financas.Application.Features.Credito
                     throw new Exception("Informações faltantes.");
 
                 var cartaoCredito = _context.CartaoCredito
-                    .SingleOrDefault(c => c.Id == command.CartaoCreditoId);
+                    .FirstOrDefault(c => c.Id == command.CartaoCreditoId);
                 
                 int incrementaMes;
                 if (command.DataCompra.Day > cartaoCredito.DiaFechamentoFatura) incrementaMes = 1; 

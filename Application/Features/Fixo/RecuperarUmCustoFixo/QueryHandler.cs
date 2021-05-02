@@ -21,7 +21,7 @@ namespace Financas.Application.Features.Fixo
             public CustoFixo Handle(Query query)
             {
                 var result = _context.CustoFixo
-                    .SingleOrDefault(cd => cd.Id == query.Id);
+                    .FirstOrDefault(cd => cd.Id == query.Id);
 
                 if (result.IsNull()) throw new Exception("Registro não encontrado");
 

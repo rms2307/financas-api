@@ -20,7 +20,7 @@ namespace Financas.Application.Features.Receitas
             public void Handle(Command command)
             {
                 Receita receita = _context.Receita
-                    .SingleOrDefault(r => r.Id == command.Id);
+                    .FirstOrDefault(r => r.Id == command.Id);
 
                 if (receita.IsNull()) throw new Exception("Registro não encontrado");
 

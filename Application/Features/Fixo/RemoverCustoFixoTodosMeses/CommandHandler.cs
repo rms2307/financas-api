@@ -22,7 +22,7 @@ namespace Financas.Application.Features.Fixo
             {
                 var custoAtual = _context.CustoFixo
                         .Include(c => c.CustoFixoDescricao)
-                        .SingleOrDefault(c => c.Id == command.Id);
+                        .FirstOrDefault(c => c.Id == command.Id);
 
                 var custos = _context.CustoFixo
                     .Include(c => c.CustoFixoDescricao)
