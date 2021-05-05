@@ -11,10 +11,13 @@ namespace Financas.Application.Features.Credito
         public class CommandHandler
         {
             private readonly FinancasContext _context;
+            private readonly RetornarTotalDeGastoDeUmCartao.QueryHandler _totalDeGastos;
 
-            public CommandHandler(FinancasContext context)
+            public CommandHandler(FinancasContext context,
+                RetornarTotalDeGastoDeUmCartao.QueryHandler totalDeGastos)
             {
                 _context = context;
+                _totalDeGastos = totalDeGastos;
             }
 
             public CartaoCreditoCompra Handle(Command command)
@@ -22,8 +25,13 @@ namespace Financas.Application.Features.Credito
                 if (command == null || command.Desc == null || command.Desc.Trim() == "")
                     throw new Exception("Informações faltantes.");
 
+                var totalDeGastos = _totalDeGastos.Handle(
+                    new RetornarTotalDeGastoDeUmCartao.Query { CartaoCreditoId = command.CartaoCreditoId });
+
                 var cartaoCredito = _context.CartaoCredito
                     .FirstOrDefault(c => c.Id == command.CartaoCreditoId);
+
+                if(totalDeGastos + command.Valor > cartaoCredito.Limite) throw new Exception("Limite do cartão excedido.");
 
                 int incrementaMes;
                 if (command.DataCompra.Day > cartaoCredito.DiaFechamentoFatura) incrementaMes = 1;
