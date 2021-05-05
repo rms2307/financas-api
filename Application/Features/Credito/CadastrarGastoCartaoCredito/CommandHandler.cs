@@ -43,12 +43,6 @@ namespace Financas.Application.Features.Credito
                     incrementaMes++;
                 }
 
-                var parcelasRound = this.RetornarParcelas(command.Valor, command.NumeroDeParcelas);
-                foreach (var item in parcelasRound)
-                {
-                    Console.WriteLine(item);
-                }
-
                 var newGasto = new CartaoCreditoCompra
                 {
                     Desc = command.Desc,
@@ -64,6 +58,7 @@ namespace Financas.Application.Features.Credito
 
                 return newGasto;
             }
+
             private List<decimal> RetornarParcelas(decimal valor, decimal totalParcelas)
             {
                 decimal varValorParcela = valor / totalParcelas;
