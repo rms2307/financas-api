@@ -45,6 +45,20 @@ namespace Financas.Api.Controllers
             }
         }
 
+        [HttpPost("cartao")]
+        public IActionResult CadastrarCartaoCredito([FromBody] CadastrarCartaoCredito.Command command,
+            [FromServices] CadastrarCartaoCredito.CommandHandler handler)
+        {
+            try
+            {
+                return Ok(handler.Handle(command));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpPut]
         public IActionResult EditarGasto([FromBody] EditarGastoCartaoCredito.Command command,
             [FromServices] EditarGastoCartaoCredito.CommandHandler handler)
