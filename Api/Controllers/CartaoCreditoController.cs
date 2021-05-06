@@ -74,6 +74,20 @@ namespace Financas.Api.Controllers
             }
         }
 
+        [HttpPut("cartao")]
+        public IActionResult EditarGasto([FromBody] EditarCartaoCredito.Command command,
+            [FromServices] EditarCartaoCredito.CommandHandler handler)
+        {
+            try
+            {                
+                return Ok(handler.Handle(command));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpDelete("{Id}")]
         public IActionResult RemoverUmGasto([FromRoute] RemoverGastoCartaoCredito.Command command,
             [FromServices] RemoverGastoCartaoCredito.CommandHandler handler)
