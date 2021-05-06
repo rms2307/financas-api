@@ -17,9 +17,32 @@ namespace Financas.Api.Controllers
             return result.Any() ? Ok(result) : NoContent();
         }
 
+        [HttpGet("cartao")]
+        public IActionResult RecuperarListaDeCartoesCreditos(
+            [FromServices] RecuperarListaDeCartoesCreditos.QueryHandler handler)
+        {
+            var result = handler.Handle();
+
+            return result.Any() ? Ok(result) : NoContent();
+        }
+
         [HttpGet("{Id}")]
         public IActionResult RecuperarUmGasto([FromRoute] RecuperarUmGastoCartaoCredito.Query query,
             [FromServices] RecuperarUmGastoCartaoCredito.QueryHandler handler)
+        {
+            try
+            {
+                return Ok(handler.Handle(query));
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
+        [HttpGet("cartao/{Id}")]
+        public IActionResult RecuperarUmCartaoCredito([FromRoute] RecuperarUmCartaoCredito.Query query,
+            [FromServices] RecuperarUmCartaoCredito.QueryHandler handler)
         {
             try
             {
@@ -79,7 +102,7 @@ namespace Financas.Api.Controllers
             [FromServices] EditarCartaoCredito.CommandHandler handler)
         {
             try
-            {                
+            {
                 return Ok(handler.Handle(command));
             }
             catch (Exception e)
