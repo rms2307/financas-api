@@ -25,8 +25,8 @@ namespace Financas.Application.Features.Credito
                     .Include(p => p.CartaoCreditoCompra)
                     .ThenInclude(c => c.CartaoCredito)
                     .Where(p => p.CartaoCreditoCompra.CartaoCredito.Id == query.CartaoCreditoId &&
-                            p.VencimentoParcela.Month >= mesAtual
-                    ).ToList();
+                            p.VencimentoParcela.Month >= mesAtual)
+                    .ToList();
 
                 var total = gastos.Sum(g => g.ValorParcela);
 

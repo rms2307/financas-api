@@ -31,7 +31,7 @@ namespace Financas.Application.Features.Credito
                 var cartaoCredito = _context.CartaoCredito
                     .FirstOrDefault(c => c.Id == command.CartaoCreditoId);
 
-                if(totalDeGastos + command.Valor > cartaoCredito.Limite) throw new Exception("Limite do cartão excedido.");
+                if (totalDeGastos + command.Valor > cartaoCredito.Limite) throw new Exception("Limite do cartão excedido.");
 
                 int incrementaMes;
                 if (command.DataCompra.Day > cartaoCredito.DiaFechamentoFatura) incrementaMes = 1;
@@ -45,7 +45,8 @@ namespace Financas.Application.Features.Credito
                         ValorParcela = command.Valor / command.NumeroDeParcelas,
                         VencimentoParcela = new DateTime(command.DataCompra.Year,
                                                          command.DataCompra.Month + incrementaMes,
-                                                         cartaoCredito.DiaVencimentoFatura)
+                                                         cartaoCredito.DiaVencimentoFatura),
+                        NumeroDaParcela = i + 1
                     };
                     parcelas.Add(parcela);
                     incrementaMes++;
@@ -57,7 +58,8 @@ namespace Financas.Application.Features.Credito
                     Valor = command.Valor,
                     DataCompra = command.DataCompra,
                     CartaoCreditoParcelas = parcelas,
-                    CartaoCredito = cartaoCredito
+                    CartaoCredito = cartaoCredito,
+                    QtdDeParcelas = command.NumeroDeParcelas
                 };
 
                 _context.CartaoCreditoCompra.Add(newGasto);

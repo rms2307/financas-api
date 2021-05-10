@@ -10,6 +10,7 @@ namespace Financas.Domain
         public string Desc { get; set; }
         public decimal Valor { get; set; }
         public DateTime DataCompra { get; set; }
+        public int QtdDeParcelas { get; set; }
         public CartaoCredito CartaoCredito { get; set; }
         [JsonIgnore]
         public List<CartaoCreditoParcela> CartaoCreditoParcelas { get; set; }
