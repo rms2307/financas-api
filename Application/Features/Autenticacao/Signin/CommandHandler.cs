@@ -13,13 +13,13 @@ namespace Financas.Application.Features.Autenticacao
         {
             private const string DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
             private readonly TokenConfig _tokenConfig;
-            private readonly ValidateCredentials.QueryHandler _validateCredentials;
+            private readonly ValidarUser.QueryHandler _validateCredentials;
             private readonly AtualizarUser.CommandHandler _atualizarUser;
             private readonly ITokenService _tokenService;
 
             public CommandHandler(
                 TokenConfig tokenConfig,
-                ValidateCredentials.QueryHandler retornarUser,
+                ValidarUser.QueryHandler retornarUser,
                 AtualizarUser.CommandHandler atualizarUser,
                 ITokenService tokenService)
             {
@@ -32,7 +32,7 @@ namespace Financas.Application.Features.Autenticacao
             public Token Handle(Command command)
             {
                 var user = _validateCredentials.Handle(
-                    new ValidateCredentials.QueryUserNameAndPassword
+                    new ValidarUser.QueryUserNameAndPassword
                     {
                         UserName = command.UserName,
                         Password = command.Password

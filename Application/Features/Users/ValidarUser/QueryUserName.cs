@@ -1,6 +1,6 @@
 ﻿namespace Financas.Application.Features.Users
 {
-    public partial class ValidateCredentials
+    public partial class ValidarUser
     {
         public class QueryUserName
         {
