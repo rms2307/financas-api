@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Financas.Application.Features.Receitas;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Financas.Api.Controllers
 {
+    [Authorize("Bearer")]
     [Route("/receitas")]
     public class ReceitaContoller : ControllerBase
     {

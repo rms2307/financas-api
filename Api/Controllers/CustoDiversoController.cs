@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using Financas.Application.Features.Diverso;
 using System.Net;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Financas.Api.Controllers
 {
+    [Authorize("Bearer")]
     [Route("/diversos")]
     public class CustoDiversoContoller : ControllerBase
     {

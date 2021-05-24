@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Financas.Application.Features.Fixo;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Financas.Api.Controllers
 {
+    [Authorize("Bearer")]
     [Route("/fixos")]
     public class CustoFixoContoller : ControllerBase
     {

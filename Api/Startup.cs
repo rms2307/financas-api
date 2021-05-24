@@ -1,18 +1,17 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Financas.Application.Persistence;
+using Financas.Application.Infrastructure.Autenticacao;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Financas.Api
 {
@@ -29,6 +28,39 @@ namespace Financas.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var tokenConfig = new TokenConfig();
+            new ConfigureFromConfigurationOptions<TokenConfig>(
+                Configuration.GetSection("TokenConfig"))
+                .Configure(tokenConfig);
+
+            services.AddSingleton(tokenConfig);
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = tokenConfig.Issuer,
+                    ValidAudience = tokenConfig.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfig.Secret))
+                };
+            });
+
+            services.AddAuthorization(auth =>
+            {
+                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser().Build());
+            });
+
             var environment = HostEnvironment.IsDevelopment() ? "Development" : "Production";
             var connectionString = Configuration.GetConnectionString(environment);
             services.AddDbContext<FinancasContext>(options => options.UseSqlServer(connectionString));
@@ -40,13 +72,15 @@ namespace Financas.Api
                        .AllowAnyHeader();
             }));
 
+            services.AddTransient<ITokenService, TokenService>();
+
             services.Scan(scan => scan
                 .FromApplicationDependencies()
                 .AddClasses(classes => classes.Where(type => type.Name.Equals("QueryHandler")))
                     .AsSelf()
                     .WithTransientLifetime()
                 .AddClasses(classes => classes.Where(type => type.Name.Equals("CommandHandler")))
-                    .AsSelf()               
+                    .AsSelf()
                     .WithTransientLifetime());
 
             services.AddControllers();
@@ -66,7 +100,7 @@ namespace Financas.Api
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Financas-Api V1"));
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 

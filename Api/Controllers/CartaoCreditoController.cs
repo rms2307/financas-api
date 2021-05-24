@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Financas.Application.Features.Credito;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Financas.Api.Controllers
 {
+    [Authorize("Bearer")]
     [Route("/creditos")]
     public class CartaoCreditoContoller : ControllerBase
     {
