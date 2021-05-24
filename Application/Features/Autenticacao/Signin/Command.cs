@@ -1,6 +1,6 @@
 ﻿namespace Financas.Application.Features.Autenticacao
 {
-    public partial class Login
+    public partial class Signin
     {
         public class Command
         {

@@ -1,9 +1,7 @@
 ﻿using Financas.Application.Features.Autenticacao;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Financas.Api.Controllers
 {
@@ -11,21 +9,54 @@ namespace Financas.Api.Controllers
     public class AuthController : ControllerBase
     {
         [HttpPost("signin")]
-        public IActionResult Signin([FromBody] Login.Command command,
-            [FromServices] Login.CommandHandler handler)
+        public IActionResult Signin([FromBody] Signin.Command command,
+            [FromServices] Signin.CommandHandler handler)
         {
-            if (command == null) return BadRequest();
+            if (command.UserName is null || command.Password is null)
+                return BadRequest("UserName e/ou Password nulos.");
 
             try
             {
                 var token = handler.Handle(command);
-
+                if (token is null) return Unauthorized();
                 return Ok(token);
             }
             catch (Exception e)
             {
                 return Unauthorized(e.Message);
             }
+        }
+
+        [HttpPost("refresh")]
+        public IActionResult Refresh([FromBody] RefreshToken.Command command,
+            [FromServices] RefreshToken.CommandHandler handler)
+        {
+            if (command.AccessToken is null || command.RefreshToken is null)
+                return BadRequest("AccessToken e RefreshToken nulos.");
+
+            try
+            {
+                var token = handler.Handle(command);
+                if (token is null) return BadRequest();
+                return Ok(token);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+            
+        [HttpGet("revoke")]
+        [Authorize("Bearer")]
+        public IActionResult Revoke([FromServices] RevokeToken.CommandHandler handler)
+        {
+            RevokeToken.Command command = new()
+            {
+                UserName = User.Identity.Name
+            };
+            var result = handler.Handle(command);
+
+            return !result ? BadRequest() : NoContent();
         }
     }
 }

@@ -1,12 +1,12 @@
-﻿namespace Financas.Domain
+﻿namespace Financas.Application.Infrastructure.Autenticacao
 {
     public class Token
     {
         public Token(
-            bool autenticado, 
-            string criado, 
-            string expiraEm, 
-            string accessToken, 
+            bool autenticado,
+            string criado,
+            string expiraEm,
+            string accessToken,
             string refreshToken)
         {
             Autenticado = autenticado;
