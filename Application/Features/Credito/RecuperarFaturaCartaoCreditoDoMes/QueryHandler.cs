@@ -23,7 +23,8 @@ namespace Financas.Application.Features.Credito
                 var parcelas = _context.CartaoCreditoParcela
                     .Include(c => c.CartaoCreditoCompra)
                     .ThenInclude(c => c.CartaoCredito)
-                    .Where(c => c.VencimentoParcela.Month == query.MesAtual)
+                    .Where(c => c.VencimentoParcela.Month == query.MesAtual 
+                           && c.CartaoCreditoCompra.CartaoCredito.Id == query.CartaoCreditoId)
                     .OrderByDescending(c => c.CartaoCreditoCompra.DataCompra)
                     .ToList();
 
