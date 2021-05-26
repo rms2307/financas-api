@@ -12,6 +12,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
+using Application.Infrastructure;
+using Api.Controllers;
+using Microsoft.AspNetCore.Http;
 
 namespace Financas.Api
 {
@@ -28,6 +31,8 @@ namespace Financas.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             var tokenConfig = new TokenConfig();
             new ConfigureFromConfigurationOptions<TokenConfig>(
                 Configuration.GetSection("TokenConfig"))
@@ -73,6 +78,7 @@ namespace Financas.Api
             }));
 
             services.AddTransient<ITokenService, TokenService>();
+            services.AddTransient<ICurrentUser, CurrentUser>();
 
             services.Scan(scan => scan
                 .FromApplicationDependencies()

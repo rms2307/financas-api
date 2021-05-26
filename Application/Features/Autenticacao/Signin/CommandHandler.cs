@@ -41,8 +41,7 @@ namespace Financas.Application.Features.Autenticacao
 
                 var claims = new List<Claim>
                 {
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
-                    new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName)
+                    new Claim(nameof(user.UserName), user.UserName)
                 };
 
                 var accessToken = _tokenService.GerarAccessToken(claims);
