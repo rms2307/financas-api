@@ -3,7 +3,7 @@ using System.Linq;
 using LanguageExt;
 using Financas.Application.Persistence;
 using Financas.Domain;
-using Microsoft.EntityFrameworkCore;
+using Application.Infrastructure;
 
 namespace Financas.Application.Features.Credito
 {
@@ -12,15 +12,18 @@ namespace Financas.Application.Features.Credito
         public class QueryHandler
         {
             private readonly FinancasContext _context;
+            private readonly ICurrentUser _currentUser;
 
-            public QueryHandler(FinancasContext context)
+            public QueryHandler(FinancasContext context, ICurrentUser currentUser)
             {
                 _context = context;
+                _currentUser = currentUser;
             }
 
             public IEnumerable<CartaoCredito> Handle()
             {
-                var cartoes = _context.CartaoCredito.ToList();
+                var user = _context.Users.FirstOrDefault(u => u.UserName == _currentUser.UserName);
+                var cartoes = _context.CartaoCredito.Where(c=> c.User == user).ToList();
 
                 return cartoes;
             }

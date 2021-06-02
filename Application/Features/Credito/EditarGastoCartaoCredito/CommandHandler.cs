@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LanguageExt;
 using Financas.Application.Persistence;
 using Financas.Domain;
 using Microsoft.EntityFrameworkCore;
+using Application.Infrastructure;
 
 namespace Financas.Application.Features.Credito
 {
@@ -15,10 +14,12 @@ namespace Financas.Application.Features.Credito
         public class CommandHandler
         {
             private readonly FinancasContext _context;
+            private readonly ICurrentUser _currentUser;
 
-            public CommandHandler(FinancasContext context)
+            public CommandHandler(FinancasContext context, ICurrentUser currentUser)
             {
                 _context = context;
+                _currentUser = currentUser;
             }
 
             public CartaoCreditoCompra Handle(Command command)
@@ -26,13 +27,15 @@ namespace Financas.Application.Features.Credito
                 if (command == null || command.Desc == null || command.Desc.Trim() == "")
                     throw new Exception("Informações faltantes.");
 
+                var user = _context.Users.FirstOrDefault(u => u.UserName == _currentUser.UserName);
+
                 var gasto = _context.CartaoCreditoCompra
                     .Include(c => c.CartaoCredito)
                     .Include(c => c.CartaoCreditoParcelas)
                     .FirstOrDefault(c => c.Id == command.Id);
 
                 var cartaoCredito = _context.CartaoCredito
-                    .FirstOrDefault(c => c.Id == command.CartaoCreditoId);
+                    .FirstOrDefault(c => c.Id == command.CartaoCreditoId && c.User == user);
 
                 if (gasto.IsNull() || cartaoCredito.IsNull()) throw new Exception("Registro não encontrado");
 

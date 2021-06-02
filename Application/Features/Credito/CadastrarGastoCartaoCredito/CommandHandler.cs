@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Financas.Application.Persistence;
 using Financas.Domain;
 using System.Linq;
+using Application.Infrastructure;
 
 namespace Financas.Application.Features.Credito
 {
@@ -12,12 +13,14 @@ namespace Financas.Application.Features.Credito
         {
             private readonly FinancasContext _context;
             private readonly RetornarTotalDeGastoDeUmCartao.QueryHandler _totalDeGastos;
+            private readonly ICurrentUser _currentUser;
 
             public CommandHandler(FinancasContext context,
-                RetornarTotalDeGastoDeUmCartao.QueryHandler totalDeGastos)
+                RetornarTotalDeGastoDeUmCartao.QueryHandler totalDeGastos, ICurrentUser currentUser)
             {
                 _context = context;
                 _totalDeGastos = totalDeGastos;
+                _currentUser = currentUser;
             }
 
             public CartaoCreditoCompra Handle(Command command)
@@ -25,11 +28,14 @@ namespace Financas.Application.Features.Credito
                 if (command == null || command.Desc == null || command.Desc.Trim() == "")
                     throw new Exception("Informações faltantes.");
 
+                var user = _context.Users.FirstOrDefault(u => u.UserName == _currentUser.UserName);
+
                 var totalDeGastos = _totalDeGastos.Handle(
                     new RetornarTotalDeGastoDeUmCartao.Query { CartaoCreditoId = command.CartaoCreditoId });
 
                 var cartaoCredito = _context.CartaoCredito
-                    .FirstOrDefault(c => c.Id == command.CartaoCreditoId);
+                    .FirstOrDefault(c => c.Id == command.CartaoCreditoId && 
+                                    c.User == user);
 
                 if (totalDeGastos + command.Valor > cartaoCredito.Limite) throw new Exception("Limite do cartão excedido.");
 

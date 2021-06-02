@@ -1,4 +1,6 @@
-﻿namespace Financas.Domain
+﻿using System.Text.Json.Serialization;
+
+namespace Financas.Domain
 {
     public class CartaoCredito
     {
@@ -7,5 +9,7 @@
         public int DiaFechamentoFatura { get; set; }
         public int DiaVencimentoFatura { get; set; }
         public decimal Limite { get; set; }
+        [JsonIgnore]
+        public User User { get; set; }
     }
 }
