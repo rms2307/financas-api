@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace Financas.Domain
 {
@@ -6,5 +7,7 @@ namespace Financas.Domain
     {
         public int Id { get; set; }
         public string Desc { get; set; }
+        [JsonIgnore]
+        public User User { get; set; }
     }
 }

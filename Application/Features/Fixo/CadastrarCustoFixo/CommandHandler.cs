@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Application.Infrastructure;
 using Financas.Application.Persistence;
 using Financas.Domain;
 
@@ -10,10 +12,12 @@ namespace Financas.Application.Features.Fixo
         public class CommandHandler
         {
             private readonly FinancasContext _context;
+            private readonly ICurrentUser _currentUser;
 
-            public CommandHandler(FinancasContext context)
+            public CommandHandler(FinancasContext context, ICurrentUser currentUser)
             {
                 _context = context;
+                _currentUser = currentUser;
             }
 
             public List<CustoFixo> Handle(Command command)
@@ -21,9 +25,12 @@ namespace Financas.Application.Features.Fixo
                 if (command == null || command.Desc == null || command.Desc.Trim() == "")
                     throw new Exception("Informações faltantes.");
 
+                var user = _context.Users.FirstOrDefault(u => u.UserName == _currentUser.UserName);
+
                 var custoFixoDescricao = new CustoFixoDescricao
                 {
-                    Desc = command.Desc
+                    Desc = command.Desc,
+                    User = user
                 };
 
                 List<CustoFixo> listaCustos = new();

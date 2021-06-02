@@ -3,6 +3,7 @@ using System.Linq;
 using LanguageExt;
 using Financas.Application.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Application.Infrastructure;
 
 namespace Financas.Application.Features.Fixo
 {
@@ -11,10 +12,12 @@ namespace Financas.Application.Features.Fixo
         public class CommandHandler
         {
             private readonly FinancasContext _context;
+            private readonly ICurrentUser _currentUser;
 
-            public CommandHandler(FinancasContext context)
+            public CommandHandler(FinancasContext context, ICurrentUser currentUser)
             {
                 _context = context;
+                _currentUser = currentUser;
             }
 
             public void Handle(Command command)
@@ -22,12 +25,15 @@ namespace Financas.Application.Features.Fixo
                 if (command == null || command.Desc.Trim() == "" || command.Desc == null)
                     throw new Exception("Informações faltantes.");
 
+                var user = _context.Users.FirstOrDefault(u => u.UserName == _currentUser.UserName);
+
                 if (command.AlterarApenasMesAtual)
                 {
                     var custoDoMes = _context.CustoFixo
                         .Include(c => c.CustoFixoDescricao)
-                        .FirstOrDefault(c => c.CustoFixoDescricaoId == command.DescId
-                                    && c.Id == command.Id);
+                        .FirstOrDefault(c => c.CustoFixoDescricaoId == command.DescId &&
+                                        c.Id == command.Id &&
+                                        c.CustoFixoDescricao.User == user);
 
                     if (custoDoMes.IsNull()) throw new Exception("Registro não encontrado");
 
@@ -41,8 +47,9 @@ namespace Financas.Application.Features.Fixo
                 {
                     var custoAtual = _context.CustoFixo
                         .Include(c => c.CustoFixoDescricao)
-                        .Where(c => c.CustoFixoDescricaoId == command.DescId && c.Id == command.Id)
-                        .SingleOrDefault();
+                        .FirstOrDefault(c => c.CustoFixoDescricaoId == command.DescId &&
+                                        c.Id == command.Id &&
+                                        c.CustoFixoDescricao.User == user);
 
                     if (custoAtual.IsNull()) throw new Exception("Registro não encontrado");
 
@@ -73,7 +80,8 @@ namespace Financas.Application.Features.Fixo
                 {
                     var custos = _context.CustoFixo
                         .Include(c => c.CustoFixoDescricao)
-                        .Where(c => c.CustoFixoDescricaoId == command.DescId)
+                        .Where(c => c.CustoFixoDescricaoId == command.DescId &&
+                                    c.CustoFixoDescricao.User == user)
                         .ToList();
 
                     if (custos.Any())
