@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace Financas.Domain
 {
@@ -12,5 +9,7 @@ namespace Financas.Domain
         public TipoDeReceita TipoDeReceita { get; set; }
         public DateTime DataRecebimento { get; set; }
         public decimal Valor { get; set; }
+        [JsonIgnore]
+        public User User { get; set; }
     }
 }
