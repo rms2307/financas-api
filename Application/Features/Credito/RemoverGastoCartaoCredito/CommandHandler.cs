@@ -5,6 +5,7 @@ using Financas.Application.Persistence;
 using Financas.Domain;
 using Microsoft.EntityFrameworkCore;
 using Application.Infrastructure;
+using System.Collections.Generic;
 
 namespace Financas.Application.Features.Credito
 {
@@ -31,8 +32,15 @@ namespace Financas.Application.Features.Credito
                     .Include(c => c.CartaoCredito)
                     .FirstOrDefault(c => c.Id == command.Id && c.CartaoCredito.User == user);
 
-                if (gasto.IsNull()) throw new Exception("Registro não encontrado");
+                List<CartaoCreditoParcela> parcelas = _context.CartaoCreditoParcela
+                    .Include(p => p.CartaoCreditoCompra)
+                    .Where(p => p.CartaoCreditoCompra.Id == command.Id)
+                    .ToList();
 
+                if (gasto.IsNull() && parcelas.IsNull()) throw new Exception("Registro não encontrado");
+
+
+                _context.CartaoCreditoParcela.RemoveRange(parcelas);
                 _context.CartaoCreditoCompra.Remove(gasto);
                 _context.SaveChanges();
             }
