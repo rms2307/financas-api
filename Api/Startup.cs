@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Microsoft.EntityFrameworkCore;
 using Financas.Application.Persistence;
 using Financas.Application.Infrastructure.Autenticacao;
 using Microsoft.Extensions.Options;
@@ -15,6 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using Application.Infrastructure;
 using Api.Controllers;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace Financas.Api
 {
@@ -68,7 +68,7 @@ namespace Financas.Api
 
             var environment = HostEnvironment.IsDevelopment() ? "Development" : "Production";
             var connectionString = Configuration.GetConnectionString(environment);
-            services.AddDbContext<FinancasContext>(options => options.UseSqlServer(connectionString));
+            services.AddDbContext<FinancasContext>(options => options.UseMySql(connectionString));
 
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {

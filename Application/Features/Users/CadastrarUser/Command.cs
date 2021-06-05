@@ -10,8 +10,6 @@ namespace Financas.Application.Features.Users
             public string Password { get; set; }
             public string ConfirmPassword { get; set; }
             public string NomeCompleto { get; set; }
-            public string RefreshToken { get; set; }
-            public DateTime RefreshTokenExpiryTime { get; set; }
         }
     }    
 }
