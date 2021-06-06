@@ -10,7 +10,7 @@ namespace Financas.Api.Controllers
     public class UserController : ControllerBase
     {
         [HttpPost]
-        public IActionResult Signin([FromBody] CadastrarUser.Command command,
+        public IActionResult Signup([FromBody] CadastrarUser.Command command,
             [FromServices] CadastrarUser.CommandHandler handler)
         {
             try
