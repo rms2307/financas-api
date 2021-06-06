@@ -18,7 +18,7 @@ deploy:
     docker push rms2307/financas-api-db:$TRAVIS_JOB_ID;
     docker push rms2307/financas-api:$TRAVIS_JOB_ID;
   on:
-    branch: docker
+    branch: master
 notifications:
   email:
     - rms2307@outlook.com
