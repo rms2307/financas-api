@@ -19,7 +19,7 @@ jobs:
             login-server: ${{ secrets.DOCKER_CONTAINER_REGISTRY }}
             
         - name: Build Images
-          working-directory: ./financas-api
+          working-directory: .
           run: docker-compose build
           
         - name: Push to Azure Container Registry
