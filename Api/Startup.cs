@@ -15,6 +15,7 @@ using Application.Infrastructure;
 using Api.Controllers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Financas.Api
 {
@@ -67,6 +68,7 @@ namespace Financas.Api
             });
 
             var environment = HostEnvironment.IsDevelopment() ? "Development" : "Production";
+            Console.WriteLine("Environment -> " + environment);
             var connectionString = Configuration.GetConnectionString(environment);
             services.AddDbContext<FinancasContext>(options => options.UseMySql(connectionString));
 
