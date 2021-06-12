@@ -1,6 +1,8 @@
 ﻿using Financas.Application.Features.Users;
 using Financas.Application.Infrastructure.Autenticacao;
+using Financas.Domain;
 using System;
+using System.Linq;
 
 namespace Financas.Application.Features.Autenticacao
 {
@@ -24,7 +26,7 @@ namespace Financas.Application.Features.Autenticacao
                 _validateCredentials = retornarUser;
                 _atualizarUser = atualizarUser;
                 _tokenService = tokenService;
-            }                     
+            }
 
             public Token Handle(Command command)
             {
@@ -32,8 +34,11 @@ namespace Financas.Application.Features.Autenticacao
                 var refreshToken = command.RefreshToken;
 
                 var principal = _tokenService.GetPrincipalFromExpiredToken(accessToken);
+                var username = principal.Claims.SingleOrDefault(c =>
+                        c.Type.Equals(nameof(User.UserName), 
+                        StringComparison.CurrentCultureIgnoreCase))?
+                        .Value;
 
-                var username = principal.Identity.Name;
                 var user = _validateCredentials.Handle(
                     new ValidarUser.QueryUserName
                     {

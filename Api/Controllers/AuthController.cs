@@ -12,6 +12,8 @@ namespace Financas.Api.Controllers
         public IActionResult Signin([FromBody] Signin.Command command,
             [FromServices] Signin.CommandHandler handler)
         {
+            Console.WriteLine("Controller -> Signin");
+
             if (command.UserName is null || command.Password is null)
                 return BadRequest("UserName e/ou Password nulos.");
 
@@ -31,6 +33,8 @@ namespace Financas.Api.Controllers
         public IActionResult Refresh([FromBody] RefreshToken.Command command,
             [FromServices] RefreshToken.CommandHandler handler)
         {
+            Console.WriteLine("Controller -> Refresh");
+
             if (command.AccessToken is null || command.RefreshToken is null)
                 return BadRequest("AccessToken e RefreshToken nulos.");
 
@@ -45,11 +49,13 @@ namespace Financas.Api.Controllers
                 return BadRequest(e.Message);
             }
         }
-            
+
         [HttpGet("revoke")]
         [Authorize("Bearer")]
         public IActionResult Revoke([FromServices] RevokeToken.CommandHandler handler)
         {
+            Console.WriteLine("Controller -> Revoke");
+
             RevokeToken.Command command = new()
             {
                 UserName = User.Identity.Name
