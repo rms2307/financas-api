@@ -14,6 +14,8 @@ namespace Financas.Api.Controllers
         public IActionResult RecuperarFaturaDoMes([FromQuery] RecuperarFaturaCartaoCreditoDoMes.Query query,
             [FromServices] RecuperarFaturaCartaoCreditoDoMes.QueryHandler handler)
         {
+            Console.WriteLine("Controller -> RecuperarFaturaDoMes");
+
             var result = handler.Handle(query);
 
             return result.Any() ? Ok(result) : NoContent();
@@ -23,6 +25,8 @@ namespace Financas.Api.Controllers
         public IActionResult RecuperarListaDeCartoesCreditos(
             [FromServices] RecuperarListaDeCartoesCreditos.QueryHandler handler)
         {
+            Console.WriteLine("Controller -> RecuperarListaDeCartoesCreditos");
+
             var result = handler.Handle();
 
             return result.Any() ? Ok(result) : NoContent();
@@ -32,6 +36,8 @@ namespace Financas.Api.Controllers
         public IActionResult RecuperarUmGasto([FromRoute] RecuperarUmGastoCartaoCredito.Query query,
             [FromServices] RecuperarUmGastoCartaoCredito.QueryHandler handler)
         {
+            Console.WriteLine("Controller -> RecuperarUmGasto");
+
             try
             {
                 return Ok(handler.Handle(query));
@@ -46,6 +52,8 @@ namespace Financas.Api.Controllers
         public IActionResult RecuperarUmCartaoCredito([FromRoute] RecuperarUmCartaoCredito.Query query,
             [FromServices] RecuperarUmCartaoCredito.QueryHandler handler)
         {
+            Console.WriteLine("Controller -> RecuperarUmCartaoCredito");
+
             try
             {
                 return Ok(handler.Handle(query));
@@ -60,6 +68,8 @@ namespace Financas.Api.Controllers
         public IActionResult CadastrarGasto([FromBody] CadastrarGastoCartaoCredito.Command command,
             [FromServices] CadastrarGastoCartaoCredito.CommandHandler handler)
         {
+            Console.WriteLine("Controller -> CadastrarGasto");
+
             try
             {
                 return Ok(handler.Handle(command));
@@ -74,6 +84,8 @@ namespace Financas.Api.Controllers
         public IActionResult CadastrarCartaoCredito([FromBody] CadastrarCartaoCredito.Command command,
             [FromServices] CadastrarCartaoCredito.CommandHandler handler)
         {
+            Console.WriteLine("Controller -> CadastrarCartaoCredito");
+
             try
             {
                 return Ok(handler.Handle(command));
@@ -88,6 +100,8 @@ namespace Financas.Api.Controllers
         public IActionResult EditarGasto([FromBody] EditarGastoCartaoCredito.Command command,
             [FromServices] EditarGastoCartaoCredito.CommandHandler handler)
         {
+            Console.WriteLine("Controller -> EditarGasto");
+
             try
             {
                 handler.Handle(command);
@@ -100,9 +114,11 @@ namespace Financas.Api.Controllers
         }
 
         [HttpPut("cartao")]
-        public IActionResult EditarGasto([FromBody] EditarCartaoCredito.Command command,
+        public IActionResult EditarCartaoCredito([FromBody] EditarCartaoCredito.Command command,
             [FromServices] EditarCartaoCredito.CommandHandler handler)
         {
+            Console.WriteLine("Controller -> EditarCartaoCredito");
+
             try
             {
                 return Ok(handler.Handle(command));
@@ -117,6 +133,8 @@ namespace Financas.Api.Controllers
         public IActionResult RemoverUmGasto([FromRoute] RemoverGastoCartaoCredito.Command command,
             [FromServices] RemoverGastoCartaoCredito.CommandHandler handler)
         {
+            Console.WriteLine("Controller -> RemoverUmGasto");
+
             try
             {
                 handler.Handle(command);

@@ -14,6 +14,8 @@ namespace Financas.Api.Controllers
         public IActionResult RecuperarReceitaDoMes([FromQuery] RecuperarReceitasDoMes.Query query,
             [FromServices] RecuperarReceitasDoMes.QueryHandler handler)
         {
+            Console.WriteLine("Controller -> RecuperarReceitaDoMes");
+
             var result = handler.Handle(query);
 
             return result.Any() ? Ok(result) : NoContent();
@@ -23,6 +25,8 @@ namespace Financas.Api.Controllers
         public IActionResult RecuperarUmaReceita([FromRoute] RecuperarUmaReceita.Query query,
             [FromServices] RecuperarUmaReceita.QueryHandler handler)
         {
+            Console.WriteLine("Controller -> RecuperarUmaReceita");
+
             try
             {
                 return Ok(handler.Handle(query));
@@ -37,6 +41,8 @@ namespace Financas.Api.Controllers
         public IActionResult CadastrarReceita([FromBody] CadastrarReceita.Command command,
             [FromServices] CadastrarReceita.CommandHandler handler)
         {
+            Console.WriteLine("Controller -> CadastrarReceita");
+
             try
             {
                 return Ok(handler.Handle(command));
@@ -51,6 +57,8 @@ namespace Financas.Api.Controllers
         public IActionResult EditarReceita([FromBody] EditarReceita.Command command,
             [FromServices] EditarReceita.CommandHandler handler)
         {
+            Console.WriteLine("Controller -> EditarReceita");
+
             try
             {
                 handler.Handle(command);
@@ -66,6 +74,8 @@ namespace Financas.Api.Controllers
         public IActionResult RemoverUmaReceita([FromRoute] RemoverUmaReceita.Command command,
             [FromServices] RemoverUmaReceita.CommandHandler handler)
         {
+            Console.WriteLine("Controller -> RemoverUmaReceita");
+
             try
             {
                 handler.Handle(command);

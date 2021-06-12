@@ -13,6 +13,8 @@ namespace Financas.Api.Controllers
         public IActionResult Signup([FromBody] CadastrarUser.Command command,
             [FromServices] CadastrarUser.CommandHandler handler)
         {
+            Console.WriteLine("Controller -> Signup");
+
             try
             {
                 return Ok(handler.Handle(command));

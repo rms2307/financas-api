@@ -14,6 +14,8 @@ namespace Financas.Api.Controllers
         public IActionResult RecuperarCustosFixosDoMes([FromQuery] RecuperarCustosFixosDoMes.Query query,
             [FromServices] RecuperarCustosFixosDoMes.QueryHandler handler)
         {
+            Console.WriteLine("Controller -> RecuperarCustosFixosDoMes");
+
             var result = handler.Handle(query);
 
             return result.Any() ? Ok(result) : NoContent();
@@ -23,6 +25,8 @@ namespace Financas.Api.Controllers
         public IActionResult RecuperarUmCustoFixo([FromRoute] RecuperarUmCustoFixo.Query query,
             [FromServices] RecuperarUmCustoFixo.QueryHandler handler)
         {
+            Console.WriteLine("Controller -> RecuperarUmCustoFixo");
+
             try
             {
                 return Ok(handler.Handle(query));
@@ -37,6 +41,8 @@ namespace Financas.Api.Controllers
         public IActionResult CadastrarCustoFixo([FromBody] CadastrarCustoFixo.Command command,
             [FromServices] CadastrarCustoFixo.CommandHandler handler)
         {
+            Console.WriteLine("Controller -> CadastrarCustoFixo");
+
             try
             {
                 return Ok(handler.Handle(command));
@@ -51,6 +57,8 @@ namespace Financas.Api.Controllers
         public IActionResult EditarCustoFixo([FromBody] EditarCustoFixo.Command command,
             [FromServices] EditarCustoFixo.CommandHandler handler)
         {
+            Console.WriteLine("Controller -> EditarCustoFixo");
+
             try
             {
                 handler.Handle(command);
@@ -67,6 +75,8 @@ namespace Financas.Api.Controllers
             [FromRoute] RemoverCustoFixoDoMesAtual.Command command,
             [FromServices] RemoverCustoFixoDoMesAtual.CommandHandler handler)
         {
+            Console.WriteLine("Controller -> RemoverCustoFixoDoMesAtual");
+
             try
             {
                 handler.Handle(command);
@@ -83,6 +93,8 @@ namespace Financas.Api.Controllers
             [FromRoute] RemoverCustoFixoDosProximosMeses.Command command,
             [FromServices] RemoverCustoFixoDosProximosMeses.CommandHandler handler)
         {
+            Console.WriteLine("Controller -> RemoverCustoFixoDosProximosMeses");
+
             try
             {
                 handler.Handle(command);
@@ -99,6 +111,8 @@ namespace Financas.Api.Controllers
             [FromRoute] RemoverCustoFixoTodosMeses.Command command,
             [FromServices] RemoverCustoFixoTodosMeses.CommandHandler handler)
         {
+            Console.WriteLine("Controller -> RemoverCustoFixoTodosMeses");
+
             try
             {
                 handler.Handle(command);
