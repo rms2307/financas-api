@@ -56,13 +56,9 @@ namespace Financas.Api.Controllers
         {
             Console.WriteLine("Controller -> Revoke");
 
-            RevokeToken.Command command = new()
-            {
-                UserName = User.Identity.Name
-            };
-            var result = handler.Handle(command);
+            var result = handler.Handle();
 
-            return !result ? BadRequest() : NoContent();
+            return !result ? BadRequest() : Ok(result);
         }
     }
 }
