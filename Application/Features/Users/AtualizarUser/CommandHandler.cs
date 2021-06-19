@@ -22,21 +22,24 @@ namespace Financas.Application.Features.Users
 
             public User Handle(Command command)
             {
-                if (command == null || command.UserName == null || command.UserName.Trim() == "" ||
-                        command.Password == null || command.Password.Trim() == "" ||
-                        command.NomeCompleto == null || command.NomeCompleto.Trim() == "")
-                    throw new Exception("Informações faltantes.");
+                if (command != null && command.UserName != null && command.UserName.Trim() != "" &&
+                        command.Password != null && command.Password.Trim() != "" &&
+                        command.NomeCompleto != null && command.NomeCompleto.Trim() != "" &&
+                        command.Email != null && command.Email.Trim() != "")
+                {
+                    var user = _context.Users
+                       .FirstOrDefault(c => c.Id.Equals(command.Id));
 
-                var user = _context.Users
-                    .FirstOrDefault(c => c.Id.Equals(command.Id));
+                    if (user.IsNull()) throw new Exception("Usuario não encontrado.");
 
-                if (user.IsNull()) throw new Exception("Usuario não encontrado.");
+                    _context.Entry(user).CurrentValues.SetValues(command);
 
-                _context.Entry(user).CurrentValues.SetValues(command);
+                    _context.SaveChanges();
 
-                _context.SaveChanges();
+                    return user;
+                }
 
-                return user;
+                throw new Exception("Informações faltantes.");
             }
         }
     }
