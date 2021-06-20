@@ -50,6 +50,23 @@ namespace Financas.Api.Controllers
             }
         }
 
+        [HttpPost("senha")]
+        public IActionResult RecuperarSenha([FromBody] RecuperarSenha.Command command,
+            [FromServices] RecuperarSenha.CommandHandler handler)
+        {
+            Console.WriteLine("Controller -> RecuperarSenha");
+
+            try
+            {
+                handler.Handle(command);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpGet("revoke")]
         [Authorize("Bearer")]
         public IActionResult Revoke([FromServices] RevokeToken.CommandHandler handler)
