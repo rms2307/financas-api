@@ -14,7 +14,7 @@ namespace Financas.Api.Controllers
         {
             Console.WriteLine("Controller -> Signin");
 
-            if (command.UserName is null || command.Password is null)
+            if (string.IsNullOrWhiteSpace(command.UserName) || string.IsNullOrWhiteSpace(command.Password))
                 return BadRequest("UserName e/ou Password nulos.");
 
             try
@@ -35,7 +35,7 @@ namespace Financas.Api.Controllers
         {
             Console.WriteLine("Controller -> Refresh");
 
-            if (command.AccessToken is null || command.RefreshToken is null)
+            if (string.IsNullOrWhiteSpace(command.AccessToken) || string.IsNullOrWhiteSpace(command.RefreshToken))
                 return BadRequest("AccessToken e RefreshToken nulos.");
 
             try
@@ -50,7 +50,7 @@ namespace Financas.Api.Controllers
             }
         }
 
-        [HttpPost("senha")]
+        [HttpPost("recuperar-senha")]
         public IActionResult RecuperarSenha([FromBody] RecuperarSenha.Command command,
             [FromServices] RecuperarSenha.CommandHandler handler)
         {

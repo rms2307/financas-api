@@ -4,6 +4,9 @@ using System.Linq;
 using LanguageExt;
 using System.Text;
 using System.Security.Cryptography;
+using Application.Infrastructure.Email;
+using Financas.Domain;
+using System.Threading.Tasks;
 
 namespace Financas.Application.Features.Autenticacao
 {
@@ -12,10 +15,12 @@ namespace Financas.Application.Features.Autenticacao
         public class CommandHandler
         {
             private readonly FinancasContext _context;
+            private readonly IEmailService _emailService;
 
-            public CommandHandler(FinancasContext context)
+            public CommandHandler(FinancasContext context, IEmailService emailService)
             {
                 _context = context;
+                _emailService = emailService;
             }
 
             public void Handle(Command command)
@@ -31,7 +36,7 @@ namespace Financas.Application.Features.Autenticacao
                     user.Password = passwordCrypto;
                     user.RefreshToken = null;
 
-                    EnviarEmail(passRandom);
+                    EnviarEmail(user, passRandom).GetAwaiter().GetResult(); ;
 
                     _context.SaveChanges();
                     return;
@@ -59,9 +64,17 @@ namespace Financas.Application.Features.Autenticacao
                 return pass;
             }
 
-            private void EnviarEmail(string pass)
+            private async Task EnviarEmail(User user, string pass)
             {
-                Console.WriteLine(pass);
+                var emailBody = string.Format("<p>Olá {0}. </p>" +
+                    "<p>Como solicitado, segue nova senha para acesso aos nossos serviços.</p>" +
+                    "<p>Nova Senha: <b>{1}</b></p>" +
+                    "<p>Por favor, trocar senha no primeiro acesso.</p>" +
+                    "<p>Obrigado!!!</p>",
+                    user.NomeCompleto,
+                    pass);
+
+                await _emailService.SendEmail(user.Email, "Nova Senha App Finanças", emailBody);                
             }
 
         }

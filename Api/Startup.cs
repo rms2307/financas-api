@@ -16,6 +16,7 @@ using Api.Controllers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
+using Application.Infrastructure.Email;
 
 namespace Financas.Api
 {
@@ -81,6 +82,16 @@ namespace Financas.Api
 
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<ICurrentUser, CurrentUser>();
+
+            var emailConfig = Configuration.GetSection("Email");
+            services.AddTransient<IEmailService>(x =>
+                new EmailService(
+                    emailConfig["Remetente"],
+                    emailConfig["SmtpHost"],
+                    emailConfig["SmtpPort"],
+                    emailConfig["SmtpUser"],
+                    emailConfig["SmtpPass"]
+            ));
 
             services.Scan(scan => scan
                 .FromApplicationDependencies()

@@ -58,6 +58,7 @@ namespace Financas.Application.Features.Autenticacao
                     UserName = user.UserName,
                     Password = user.Password,
                     RefreshToken = user.RefreshToken,
+                    Email = user.Email,
                     RefreshTokenExpiryTime = user.RefreshTokenExpiryTime
                 });
 

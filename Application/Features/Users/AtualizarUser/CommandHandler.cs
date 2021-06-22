@@ -22,10 +22,11 @@ namespace Financas.Application.Features.Users
 
             public User Handle(Command command)
             {
-                if (command != null && command.UserName != null && command.UserName.Trim() != "" &&
-                        command.Password != null && command.Password.Trim() != "" &&
-                        command.NomeCompleto != null && command.NomeCompleto.Trim() != "" &&
-                        command.Email != null && command.Email.Trim() != "")
+                if (!string.IsNullOrWhiteSpace(command.NomeCompleto) ||
+                    !string.IsNullOrWhiteSpace(command.UserName) ||
+                    !string.IsNullOrWhiteSpace(command.Password) ||
+                    !string.IsNullOrWhiteSpace(command.RefreshToken) ||
+                    !string.IsNullOrWhiteSpace(command.Email))
                 {
                     var user = _context.Users
                        .FirstOrDefault(c => c.Id.Equals(command.Id));
