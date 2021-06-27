@@ -1,6 +1,8 @@
-name: CI-Api_Financas
+name: CI-Deploy to Heroku
 
-on: [push]
+on:
+  push:
+    branches: [master]
 
 jobs:
 
@@ -9,31 +11,15 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-        - uses: actions/checkout@v2
-        
-        - name: Docker Login - Azure Container Registry
-          uses: Azure/docker-login@v1
-          with: 
-            username: ${{ secrets.DOCKER_USERNAME }}
-            password: ${{ secrets.DOCKER_PASSWORD }}
-            login-server: ${{ secrets.DOCKER_CONTAINER_REGISTRY }}
-            
-        - name: Build Images
-          working-directory: .
-          run: docker-compose build
-          
-        - name: Push to Azure Container Registry
-          run: |
-            docker tag ${{ secrets.IMAGE_NAME }}:latest ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/${{ secrets.IMAGE_NAME }}:${{github.run_id}}
-            docker push ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/${{ secrets.IMAGE_NAME }}:${{github.run_id}}
-            
-        - name: Login in Azure to Deployment
-          uses: azure/login@v1
-          with:
-            creds: ${{ secrets.AZURE_CREDENTIALS }}
-            
-        - name: Azure WebApp Container - Application Deployment
-          uses: azure/webapps-deploy@v2
-          with:
-            app-name: rms2307-financas-api
-            images: ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/${{ secrets.IMAGE_NAME }}:${{github.run_id}}
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build, Push and Release a Docker container to Heroku.
+        uses: gonuit/heroku-docker-deploy@v1.3.3
+        with:
+          email: ${{ secrets.HEROKU_EMAIL }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          dockerfile_directory: ./
+          dockerfile_name: Dockerfile
+          docker_options: "--no-cache"
+          process_type: web
