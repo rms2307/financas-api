@@ -24,7 +24,8 @@ namespace Financas.Application.Features.Users
                 var user = _context.Users.Where(u => u.UserName == _currentUser.UserName)
                     .Select(u => new User
                     {
-                        NomeCompleto = u.NomeCompleto
+                        NomeCompleto = u.NomeCompleto,
+                        Email = u.Email
                     })
                     .FirstOrDefault();
                 return user;

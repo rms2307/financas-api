@@ -7,6 +7,7 @@ namespace Financas.Application.Features.Users
         public class Command
         {
             public string UserName { get; set; }
+            public string Email { get; set; }
             public string Password { get; set; }
             public string ConfirmPassword { get; set; }
             public string NomeCompleto { get; set; }
