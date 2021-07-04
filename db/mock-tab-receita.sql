@@ -1,0 +1,11 @@
+insert into receita (`UserId`, `TipoDeReceita`, `DataRecebimento`, `Valor`) values (3, 1, '2021-08-01', 3000);
+insert into receita (`UserId`, `TipoDeReceita`, `DataRecebimento`, `Valor`) values (3, 1, '2021-09-01', 3000);
+insert into receita (`UserId`, `TipoDeReceita`, `DataRecebimento`, `Valor`) values (3, 1, '2021-10-01', 3000);
+insert into receita (`UserId`, `TipoDeReceita`, `DataRecebimento`, `Valor`) values (3, 1, '2021-11-01', 3000);
+insert into receita (`UserId`, `TipoDeReceita`, `DataRecebimento`, `Valor`) values (3, 1, '2021-12-01', 3000);
+insert into receita (`UserId`, `TipoDeReceita`, `DataRecebimento`, `Valor`) values (3, 1, '2021-07-20', 3000);
+insert into receita (`UserId`, `TipoDeReceita`, `DataRecebimento`, `Valor`) values (3, 1, '2021-08-20', 3000);
+insert into receita (`UserId`, `TipoDeReceita`, `DataRecebimento`, `Valor`) values (3, 1, '2021-09-20', 3000);
+insert into receita (`UserId`, `TipoDeReceita`, `DataRecebimento`, `Valor`) values (3, 1, '2021-10-20', 3000);
+insert into receita (`UserId`, `TipoDeReceita`, `DataRecebimento`, `Valor`) values (3, 1, '2021-11-20', 3000);
+insert into receita (`UserId`, `TipoDeReceita`, `DataRecebimento`, `Valor`) values (3, 1, '2021-12-20', 3000);
