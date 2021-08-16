@@ -4,6 +4,7 @@ using Application.Infrastructure;
 using Financas.Application.Persistence;
 using Financas.Domain;
 using LanguageExt;
+using Microsoft.EntityFrameworkCore;
 
 namespace Financas.Application.Features.Receitas
 {
@@ -25,13 +26,13 @@ namespace Financas.Application.Features.Receitas
                 var user = _context.Users.FirstOrDefault(u => u.UserName == _currentUser.UserName);
 
                 var receitas = _context.Receita
+                    .Include(r => r.TipoDeReceita)
                     .Where(r => r.DataRecebimento.Month == query.MesAtual && r.User == user)
                     .OrderByDescending(r => r.DataRecebimento)
                     .ToList();
 
                 return receitas;
             }
-
         }
     }
 }

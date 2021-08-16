@@ -2,6 +2,7 @@
 using Application.Infrastructure;
 using Financas.Application.Persistence;
 using Financas.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace Financas.Application.Features.Receitas
 {
@@ -23,11 +24,11 @@ namespace Financas.Application.Features.Receitas
                 var user = _context.Users.FirstOrDefault(u => u.UserName == _currentUser.UserName);
 
                 var receita = _context.Receita
-                    .FirstOrDefault(r => r.Id == query.Id && r.User == user);
+                    .Include(r => r.TipoDeReceita)
+                    .FirstOrDefault(r => r.Id == query.Id);
 
                 return receita;
             }
-
         }
     }
 }

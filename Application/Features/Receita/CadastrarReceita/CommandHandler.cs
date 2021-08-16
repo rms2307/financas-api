@@ -25,10 +25,11 @@ namespace Financas.Application.Features.Receitas
                 if (command.IsNull()) throw new Exception("Informações faltantes.");
 
                 var user = _context.Users.FirstOrDefault(u => u.UserName == _currentUser.UserName);
+                var tipoDeReceita = _context.TipoDeReceita.FirstOrDefault(tr => tr.Id == command.TipoDeReceitaId);
 
                 var newReceita = new Receita
                 {
-                    TipoDeReceita = command.TipoDeReceita,
+                    TipoDeReceita = tipoDeReceita,
                     Valor = command.Valor,
                     DataRecebimento = command.DataRecebimento,
                     User = user

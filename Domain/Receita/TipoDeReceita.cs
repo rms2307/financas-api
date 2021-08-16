@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Financas.Domain
+﻿namespace Financas.Domain
 {
-    public enum TipoDeReceita
+    public class TipoDeReceita
     {
-        Salario = 1,
-        Investimento = 2,
-        Outros = 3
+        public int Id { get; set; }
+        public string Tipo { get; set; }
     }
 }

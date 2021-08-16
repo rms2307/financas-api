@@ -7,7 +7,7 @@ namespace Financas.Application.Features.Receitas
     {
         public class Command
         {
-            public TipoDeReceita TipoDeReceita { get; set; }
+            public int TipoDeReceitaId { get; set; }
             public decimal Valor { get; set; }
             public DateTime DataRecebimento { get; set; }
         }
