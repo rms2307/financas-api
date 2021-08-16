@@ -12,7 +12,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Application.Infrastructure;
-using Api.Controllers;
+using Financas.Api.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -81,7 +81,7 @@ namespace Financas.Api
             }));
 
             services.AddTransient<ITokenService, TokenService>();
-            services.AddTransient<ICurrentUser, CurrentUser>();
+            services.AddTransient<ICurrentUser, CurrentUserMock>();
 
             var emailConfig = Configuration.GetSection("Email");
             services.AddTransient<IEmailService>(x =>

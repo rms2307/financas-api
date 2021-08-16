@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 
-namespace Api.Controllers
+namespace Financas.Api.Infrastructure
 {
     public class CurrentUser :  ICurrentUser
     {
