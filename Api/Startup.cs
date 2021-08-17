@@ -81,7 +81,7 @@ namespace Financas.Api
             }));
 
             services.AddTransient<ITokenService, TokenService>();
-            services.AddTransient<ICurrentUser, CurrentUserMock>();
+            services.AddTransient<ICurrentUser, CurrentUser>();
 
             var emailConfig = Configuration.GetSection("Email");
             services.AddTransient<IEmailService>(x =>
